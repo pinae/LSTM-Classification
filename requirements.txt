@@ -2,3 +2,4 @@ wheel
 numpy
 tensorflow-gpu
 keras
+sacred
