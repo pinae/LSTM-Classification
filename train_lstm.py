@@ -46,8 +46,6 @@ def get_data(n_top_words, max_text_length, seed):
 def train_network(n_top_words, max_text_length, embedding_vecor_dimensionality,
                   recurrent_dropout_factor, LSTM_dropout_factor, layer_dropout_factor):
     X_train, y_train, X_test, y_test = get_data()
-    print(X_train.shape)
-    print(X_train[0])
     model = Sequential()
     model.add(Embedding(n_top_words, embedding_vecor_dimensionality, input_length=max_text_length))
     model.add(Dropout(layer_dropout_factor))
