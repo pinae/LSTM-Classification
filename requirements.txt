@@ -4,3 +4,4 @@ tensorflow-gpu
 keras
 sacred
 pymongo
+h5py
