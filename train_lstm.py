@@ -17,7 +17,7 @@ ex.observers.append(MongoObserver.create())
 
 @ex.config
 def my_config():
-    embedding_vecor_dimensionality = 4
+    embedding_vector_dimensionality = 4
     recurrent_dropout_factor = 0.2
     LSTM_dropout_factor = 0.2
     layer_dropout_factor = 0.0
