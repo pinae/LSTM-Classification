@@ -9,7 +9,7 @@ from keras.layers.embeddings import Embedding
 from sacred import Experiment
 from sacred.observers import MongoObserver
 #from reuters_dataset import reuters_ingredient, load_data, get_word_list
-from heise_online_dataset import heise_online_ingredient, load_data, get_word_list
+from heise_online_dataset import heise_online_ingredient, load_data, get_word_count
 
 ex = Experiment('LSTM_Classification', ingredients=[heise_online_ingredient])
 ex.observers.append(MongoObserver.create())
@@ -26,8 +26,10 @@ def my_config():
 @ex.automain
 def train_network(embedding_vector_dimensionality, recurrent_dropout_factor, LSTM_dropout_factor, layer_dropout_factor):
     X_train, y_train, X_test, y_test = load_data()
+    print("Shape of the training input: (%d, %d)" % X_train.shape)
+    print("Shape of the training output: (%d, %d)" % y_train.shape)
     model = Sequential()
-    model.add(Embedding(len(get_word_list()), embedding_vector_dimensionality, input_length=X_train.shape[1]))
+    model.add(Embedding(get_word_count(), embedding_vector_dimensionality, input_length=X_train.shape[1]))
     model.add(Dropout(layer_dropout_factor))
     model.add(LSTM(256, return_sequences=True, recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
     model.add(Dropout(layer_dropout_factor))

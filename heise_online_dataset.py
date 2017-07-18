@@ -14,15 +14,18 @@ heise_online_ingredient = Experiment('heise_online_dataset')
 def cfg():
     val_split = 0.1
     max_text_length = None
+    reduce_dictionary = None
 
 
 @heise_online_ingredient.capture
-def load_data(val_split, max_text_length):
+def load_data(val_split, max_text_length, reduce_dictionary):
     with h5py.File(os.path.join("heise-online-dataset", "heise-online.hdf5"), 'r') as hdf5_file:
         if max_text_length:
             x = hdf5_file["heise-online_texts"][:, -1*max_text_length:]
         else:
             x = hdf5_file["heise-online_texts"]
+        if reduce_dictionary and type(reduce_dictionary) == int:
+            x[x >= reduce_dictionary] = 0
         cat_dataset = hdf5_file["heise-online_categories"]
         y = np.sum(np.eye(np.max(cat_dataset) + 1)[cat_dataset], axis=1).clip(max=1)
         combined = np.concatenate((x, y), axis=1)
@@ -50,6 +53,13 @@ def get_word_list():
         input_dataset = hdf5_file["heise-online_texts"]
         word_list = json.loads(input_dataset.attrs['words'])
     return word_list
+
+
+@heise_online_ingredient.capture
+def get_word_count(reduce_dictionary):
+    if reduce_dictionary and type(reduce_dictionary) == int:
+        return reduce_dictionary
+    return len(get_word_list)
 
 
 @heise_online_ingredient.main
