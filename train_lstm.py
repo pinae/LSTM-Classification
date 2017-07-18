@@ -8,16 +8,16 @@ from keras.layers import Dropout
 from keras.layers.embeddings import Embedding
 from sacred import Experiment
 from sacred.observers import MongoObserver
-from reuters_dataset import reuters_ingredient, load_data, get_word_list
-#from heise_online_dataset import heise_online_ingredient, load_data, get_word_list
+#from reuters_dataset import reuters_ingredient, load_data, get_word_list
+from heise_online_dataset import heise_online_ingredient, load_data, get_word_list
 
-ex = Experiment('LSTM_Classification', ingredients=[reuters_ingredient])
+ex = Experiment('LSTM_Classification', ingredients=[heise_online_ingredient])
 ex.observers.append(MongoObserver.create())
 
 
 @ex.config
 def my_config():
-    embedding_vecor_dimensionality = 16
+    embedding_vecor_dimensionality = 4
     recurrent_dropout_factor = 0.2
     LSTM_dropout_factor = 0.2
     layer_dropout_factor = 0.0
@@ -29,7 +29,9 @@ def train_network(embedding_vecor_dimensionality, recurrent_dropout_factor, LSTM
     model = Sequential()
     model.add(Embedding(len(get_word_list()), embedding_vecor_dimensionality, input_length=X_train.shape[1]))
     model.add(Dropout(layer_dropout_factor))
-    model.add(LSTM(100, recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
+    model.add(LSTM(256, return_sequences=True, recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
+    model.add(Dropout(layer_dropout_factor))
+    model.add(LSTM(128, recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
     model.add(Dropout(layer_dropout_factor))
     model.add(Dense(y_train.shape[1], activation='sigmoid'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])

@@ -12,13 +12,17 @@ heise_online_ingredient = Experiment('heise_online_dataset')
 
 @heise_online_ingredient.config
 def cfg():
-    val_split = 0.2
+    val_split = 0.1
+    max_text_length = None
 
 
 @heise_online_ingredient.capture
-def load_data(val_split):
+def load_data(val_split, max_text_length):
     with h5py.File(os.path.join("heise-online-dataset", "heise-online.hdf5"), 'r') as hdf5_file:
-        x = hdf5_file["heise-online_texts"]
+        if max_text_length:
+            x = hdf5_file["heise-online_texts"][:, -1*max_text_length:]
+        else:
+            x = hdf5_file["heise-online_texts"]
         cat_dataset = hdf5_file["heise-online_categories"]
         y = np.sum(np.eye(np.max(cat_dataset) + 1)[cat_dataset], axis=1).clip(max=1)
         combined = np.concatenate((x, y), axis=1)
