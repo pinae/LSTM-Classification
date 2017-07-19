@@ -23,7 +23,7 @@ def print_sorted_word_dict(words):
 def create_numbered_word_dict(words):
     numbered_word_dict = {}
     for i, key in enumerate(sorted(words.items(), key=lambda count: count[1], reverse=True)):
-        numbered_word_dict[key[0]] = i
+        numbered_word_dict[key[0]] = i+1
     return numbered_word_dict
 
 
@@ -90,7 +90,7 @@ if __name__ == "__main__":
             cat_list = []
             for c in article["categories"]:
                 if c in category_list:
-                    cat_list.append(category_list.index(c))
+                    cat_list.append(category_list.index(c) + 1)
             if len(cat_list) > 0:
                 int_text = text_to_int_list(article["text"], numbered_words)
                 max_article_length = max(max_article_length, len(int_text))
