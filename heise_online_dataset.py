@@ -19,7 +19,7 @@ def cfg():
 
 @heise_online_ingredient.capture
 def load_data(val_split, max_text_length, reduce_dictionary):
-    with h5py.File(os.path.join("heise-online-dataset", "heise-online_old_with_no_zero.hdf5"), 'r') as hdf5_file:
+    with h5py.File(os.path.join("heise-online-dataset", "heise-online.hdf5"), 'r') as hdf5_file:
         if max_text_length:
             x = hdf5_file["heise-online_texts"][:, -1*max_text_length:]
         else:
@@ -41,7 +41,7 @@ def load_data(val_split, max_text_length, reduce_dictionary):
 
 @heise_online_ingredient.capture
 def get_category_list():
-    with h5py.File(os.path.join("heise-online-dataset", "heise-online_old_with_no_zero.hdf5"), 'r') as hdf5_file:
+    with h5py.File(os.path.join("heise-online-dataset", "heise-online.hdf5"), 'r') as hdf5_file:
         cat_dataset = hdf5_file["heise-online_categories"]
         category_list = json.loads(cat_dataset.attrs["categories"])
     return category_list
@@ -49,7 +49,7 @@ def get_category_list():
 
 @heise_online_ingredient.capture
 def get_word_list():
-    with h5py.File(os.path.join("heise-online-dataset", "heise-online_old_with_no_zero.hdf5"), 'r') as hdf5_file:
+    with h5py.File(os.path.join("heise-online-dataset", "heise-online.hdf5"), 'r') as hdf5_file:
         input_dataset = hdf5_file["heise-online_texts"]
         word_list = json.loads(input_dataset.attrs['words'])
     return word_list
