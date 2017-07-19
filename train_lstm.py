@@ -6,6 +6,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Dropout
 from keras.layers.embeddings import Embedding
+import keras.backend as K
 from sacred import Experiment
 from sacred.observers import MongoObserver
 #from reuters_dataset import reuters_ingredient, load_data, get_word_list
@@ -15,9 +16,16 @@ ex = Experiment('LSTM_Classification', ingredients=[heise_online_ingredient])
 ex.observers.append(MongoObserver.create())
 
 
+def c_score(y_true, y_pred):
+    y_pred = K.round(y_pred)
+    positive_points = K.sum(y_true*y_pred)
+    negative_guesses = K.sum(K.clip(y_pred-y_true, 0.0, 1.0))
+    return (positive_points-negative_guesses)/K.sum(y_true)
+
+
 @ex.config
 def my_config():
-    embedding_vector_dimensionality = 4
+    embedding_vector_dimensionality = 128
     recurrent_dropout_factor = 0.2
     LSTM_dropout_factor = 0.2
     layer_dropout_factor = 0.0
@@ -36,7 +44,7 @@ def train_network(embedding_vector_dimensionality, recurrent_dropout_factor, LST
     model.add(LSTM(128, recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
     model.add(Dropout(layer_dropout_factor))
     model.add(Dense(y_train.shape[1], activation='sigmoid'))
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy', c_score])
     print(model.summary())
     model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=64)
 
