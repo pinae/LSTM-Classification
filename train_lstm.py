@@ -26,27 +26,35 @@ def c_score(y_true, y_pred):
 @ex.config
 def my_config():
     embedding_vector_dimensionality = 128
+    embedding_dropout_factor = 0.5
     recurrent_dropout_factor = 0.2
     LSTM_dropout_factor = 0.2
-    layer_dropout_factor = 0.0
+    layer_dropout_factor = 0.1
+    LSTM_layer_sizes = [256, 128]
+    batch_size = 64
+    epoch_no = 100
 
 
 @ex.automain
-def train_network(embedding_vector_dimensionality, recurrent_dropout_factor, LSTM_dropout_factor, layer_dropout_factor):
+def train_network(embedding_vector_dimensionality, embedding_dropout_factor, recurrent_dropout_factor,
+                  LSTM_dropout_factor, layer_dropout_factor, LSTM_layer_sizes, batch_size, epoch_no):
     X_train, y_train, X_test, y_test = load_data()
     print("Shape of the training input: (%d, %d)" % X_train.shape)
     print("Shape of the training output: (%d, %d)" % y_train.shape)
     model = Sequential()
     model.add(Embedding(get_word_count(), embedding_vector_dimensionality, input_length=X_train.shape[1]))
-    model.add(Dropout(layer_dropout_factor))
-    model.add(LSTM(256, return_sequences=True, recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
-    model.add(Dropout(layer_dropout_factor))
-    model.add(LSTM(128, recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
+    model.add(Dropout(embedding_dropout_factor))
+    for size in LSTM_layer_sizes[:-1]:
+        model.add(LSTM(size, return_sequences=True,
+                       recurrent_dropout=recurrent_dropout_factor,
+                       dropout=LSTM_dropout_factor))
+        model.add(Dropout(layer_dropout_factor))
+    model.add(LSTM(LSTM_layer_sizes[-1], recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
     model.add(Dropout(layer_dropout_factor))
     model.add(Dense(y_train.shape[1], activation='sigmoid'))
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['binary_accuracy', c_score])
     print(model.summary())
-    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=64)
+    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=epoch_no, batch_size=batch_size)
 
     scores = model.evaluate(X_test, y_test, verbose=0)
     print("Accuracy: %.2f%%" % (scores[1]*100))
