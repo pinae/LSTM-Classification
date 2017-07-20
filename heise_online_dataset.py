@@ -59,7 +59,7 @@ def get_word_list():
 def get_word_count(reduce_dictionary):
     if reduce_dictionary and type(reduce_dictionary) == int:
         return reduce_dictionary
-    return len(get_word_list) + 1
+    return len(get_word_list()) + 1
 
 
 @heise_online_ingredient.main
