@@ -28,6 +28,7 @@ def log_performance(_run, logs):
     _run.log_scalar("val_loss", float(logs.get('val_loss')))
     _run.log_scalar("val_binary_accuracy", float(logs.get('val_binary_accuracy')))
     _run.log_scalar("val_c_score", float(logs.get('val_c_score')))
+    _run.result = float(logs.get('val_c_score'))
 
 
 class LogPerformance(Callback):
