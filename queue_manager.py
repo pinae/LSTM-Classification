@@ -32,10 +32,11 @@ def check_for_work():
         queued_run = db.runs.find({'status': 'QUEUED'})[0]
     except IndexError:
         return None
+    config = queued_run['config']
     print("Starting an experiment with the following configuration:")
-    print(queued_run['config'])
-    start_experiment(queued_run['config'])
+    print(config)
     db.runs.delete_one({'_id': queued_run['_id']})
+    start_experiment(config)
 
 
 if __name__ == "__main__":
