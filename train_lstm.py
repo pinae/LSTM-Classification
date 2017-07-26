@@ -77,11 +77,11 @@ def train_network(embedding_vector_dimensionality, embedding_dropout_factor, rec
     model.add(Embedding(get_word_count(), embedding_vector_dimensionality, input_length=X_train.shape[1]))
     model.add(Dropout(embedding_dropout_factor))
     for size in LSTM_layer_sizes[:-1]:
-        model.add(LSTM(size, return_sequences=True,
+        model.add(LSTM(units=size, return_sequences=True,
                        recurrent_dropout=recurrent_dropout_factor,
                        dropout=LSTM_dropout_factor))
         model.add(Dropout(layer_dropout_factor))
-    model.add(LSTM(LSTM_layer_sizes[-1], recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
+    model.add(LSTM(units=LSTM_layer_sizes[-1], recurrent_dropout=recurrent_dropout_factor, dropout=LSTM_dropout_factor))
     model.add(Dropout(layer_dropout_factor))
     model.add(Dense(y_train.shape[1], activation='sigmoid'))
     optimizer = Adam(lr=lr, decay=lr_decay)
