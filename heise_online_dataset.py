@@ -13,8 +13,8 @@ heise_online_ingredient = Experiment('heise_online_dataset')
 @heise_online_ingredient.config
 def cfg():
     val_split = 0.1
-    max_text_length = None
-    reduce_dictionary = None
+    max_text_length = 500  # use None for the whole text
+    reduce_dictionary = 5000  # use None for all words
 
 
 @heise_online_ingredient.capture

@@ -51,11 +51,11 @@ def my_config():
     recurrent_dropout_factor = 0.05
     LSTM_dropout_factor = 0.05
     layer_dropout_factor = 0.05
-    LSTM_layer_sizes = [100, 100]
-    lr = 0.03
-    lr_decay = 0.98
+    LSTM_layer_sizes = [100]
+    lr = 0.001
+    lr_decay = 0.0
     batch_size = 512
-    epoch_no = 100
+    epoch_no = 150
     max_train_size = None  # whole dataset
     max_test_size = None  # whole dataset
 
