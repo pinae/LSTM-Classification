@@ -16,7 +16,7 @@ from heise_online_dataset import heise_online_ingredient, load_data, get_word_co
 from train_lstm import c_score
 
 
-ex = Experiment('LSTM_Classification', ingredients=[heise_online_ingredient])
+ex = Experiment('Dense_Average_Classification', ingredients=[heise_online_ingredient])
 ex.observers.append(MongoObserver.create())
 ex.captured_out_filter = apply_backspaces_and_linefeeds
 
