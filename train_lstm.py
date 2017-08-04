@@ -47,14 +47,14 @@ def c_score(y_true, y_pred):
 @ex.config
 def my_config():
     embedding_vector_dimensionality = 128
-    embedding_dropout_factor = 0.2
-    recurrent_dropout_factor = 0.05
-    LSTM_dropout_factor = 0.05
-    layer_dropout_factor = 0.05
-    LSTM_layer_sizes = [100]
+    embedding_dropout_factor = 0.3
+    recurrent_dropout_factor = 0.1
+    LSTM_dropout_factor = 0.1
+    layer_dropout_factor = 0.1
+    LSTM_layer_sizes = [200]
     lr = 0.001
     lr_decay = 0.0
-    batch_size = 512
+    batch_size = 256
     epoch_no = 150
     max_train_size = None  # whole dataset
     max_test_size = None  # whole dataset
