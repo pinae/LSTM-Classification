@@ -47,10 +47,10 @@ def c_score(y_true, y_pred):
 @ex.config
 def my_config():
     embedding_vector_dimensionality = 128
-    embedding_dropout_factor = 0.3
-    recurrent_dropout_factor = 0.1
-    LSTM_dropout_factor = 0.1
-    layer_dropout_factor = 0.1
+    embedding_dropout_factor = 0.4
+    recurrent_dropout_factor = 0.2
+    LSTM_dropout_factor = 0.2
+    layer_dropout_factor = 0.2
     LSTM_layer_sizes = [200]
     lr = 0.001
     lr_decay = 0.0
