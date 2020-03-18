@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from __future__ import division, print_function, unicode_literals
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import SimpleRNN
-from keras.layers import Dropout
-from keras.layers.embeddings import Embedding
-from keras.callbacks import Callback, ModelCheckpoint
-from keras.optimizers import Adam
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import SimpleRNN
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import Embedding
+from tensorflow.keras.callbacks import Callback, ModelCheckpoint
+from tensorflow.keras.optimizers import Adam
 from sacred import Experiment
 from sacred.observers import MongoObserver
 from sacred.utils import apply_backspaces_and_linefeeds

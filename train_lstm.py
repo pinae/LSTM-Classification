@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from __future__ import division, print_function, unicode_literals
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
-from keras.layers import Dropout
-from keras.layers.embeddings import Embedding
-from keras.callbacks import Callback, ModelCheckpoint
-from keras.optimizers import Adam
-import keras.backend as K
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import Embedding
+from tensorflow.keras.callbacks import Callback, ModelCheckpoint
+from tensorflow.keras.optimizers import Adam
+import tensorflow.keras.backend as K
 from sacred import Experiment
 from sacred.observers import MongoObserver
 from sacred.utils import apply_backspaces_and_linefeeds
@@ -54,7 +54,7 @@ def my_config():
     LSTM_layer_sizes = [200]
     lr = 0.001
     lr_decay = 0.0
-    batch_size = 256
+    batch_size = 128
     epoch_no = 150
     max_train_size = None  # whole dataset
     max_test_size = None  # whole dataset

@@ -19,11 +19,14 @@ source env/bin/activate
 Install the dependencies:
 ```bash
 pip install wheel
-pip install numpy h5py tensorflow-gpu keras
+pip install numpy h5py tensorflow-gpu
 pip install sacred pymongo
 ```
 Use `tensorflow` instead of `tensorflow-gpu` if you have no 
 GPU with CUDA.
+
+TensorFlow supports Python only to Version 3.7 (info from march 18th). 
+Be aware of that if your system already uses Python 3.8. 
 
 ## Running experiments
 To train a LSTM type:

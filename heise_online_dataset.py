@@ -1,6 +1,4 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-from __future__ import division, print_function, unicode_literals
 from sacred import Experiment
 import numpy as np
 import os
@@ -67,6 +65,7 @@ def test_main():
     X_train, y_train, X_test, y_test = load_data()
     print(X_train[42])
     print(y_train[42])
+
 
 if __name__ == "__main__":
     heise_online_ingredient.run()
